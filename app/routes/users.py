@@ -20,6 +20,19 @@ router = APIRouter(
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
+@router.get("/health", tags=["Healthcheck"])
+def health_check(db: Session = Depends(get_session)):
+    try:
+        db.execute(text("SELECT 1"))
+        return {
+            "status": "healthy",
+            "database": "connected"
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, 
+            detail=f"Database connection failed: {str(e)}"
+        )
 
 @router.post('/signup', status_code=HTTPStatus.CREATED)
 async def signup(
