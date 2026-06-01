@@ -22,14 +22,14 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing local dependencies...'
-                sh 'pip install -r requirements.txt'
+                sh 'pip3 install -r requirements.txt'
             }
         }
 
         stage('Build Application') {
             steps {
                 echo 'Checking integrity...'
-                sh 'python -m py_compile main.py'
+                sh 'python3 -m py_compile main.py'
             }
         }
 
