@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -10,8 +12,9 @@ class Settings(BaseSettings):
     AWS_SECRET_ACCESS_KEY: str
     BUCKET_NAME: str
     REGION_NAME: str
+    AWS_ENDPOINT_URL: Optional[str] = None
+    STORAGE_PUBLIC_BASE_URL: Optional[str] = None
 
     model_config = SettingsConfigDict(
         env_file='.env', env_file_encoding='utf-8'
     )
-
