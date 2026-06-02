@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from exceptions.http_exceptions import FORBIDDEN_EXCEPTION
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/v1/login')
 
 
 def get_current_user_dependency(db: Session = Depends(get_session), token: str = Depends(oauth2_scheme)):
