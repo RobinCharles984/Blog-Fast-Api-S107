@@ -1,0 +1,8 @@
+pipeline-stage-view
+workflow-aggregator
+git
+docker-workflow
+email-ext
+junit
+credentials
+ws-cleanup
