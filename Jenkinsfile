@@ -6,6 +6,14 @@ pipeline {
         APP_NAME = 'blog-fastapi-app'
         DOCKERHUB_REPO = 'felipezeferino/blog-fastapi-app'
         TEST_REPORT = 'test-results.xml'
+        DATABASE_URL = 'sqlite:///./jenkins-ci.db'
+        SECRET_KEY = 'jenkins-ci-secret'
+        AWS_ACCESS_KEY_ID = 'jenkins-ci-access-key'
+        AWS_SECRET_ACCESS_KEY = 'jenkins-ci-secret-key'
+        BUCKET_NAME = 'blog-fastapi-ci'
+        REGION_NAME = 'us-east-1'
+        AWS_ENDPOINT_URL = 'http://localhost:9000'
+        STORAGE_PUBLIC_BASE_URL = 'http://localhost:9000/blog-fastapi-ci'
     }
 
     stages {
