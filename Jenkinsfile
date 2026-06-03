@@ -12,8 +12,6 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = 'jenkins-ci-secret-key'
         BUCKET_NAME = 'blog-fastapi-ci'
         REGION_NAME = 'us-east-1'
-        AWS_ENDPOINT_URL = 'http://localhost:9000'
-        STORAGE_PUBLIC_BASE_URL = 'http://localhost:9000/blog-fastapi-ci'
     }
 
     stages {
