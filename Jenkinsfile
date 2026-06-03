@@ -23,14 +23,22 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing local dependencies...'
-                sh 'pip3 install -r requirements.txt'
+                sh '''
+                    python3 -m venv .venv
+                    . .venv/bin/activate
+                    python -m pip install --upgrade pip
+                    python -m pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Build Application') {
             steps {
                 echo 'Checking integrity...'
-                sh 'python3 -m py_compile main.py'
+                sh '''
+                    . .venv/bin/activate
+                    python -m py_compile main.py
+                '''
             }
         }
 
@@ -58,7 +66,10 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'pytest --junitxml=${TEST_REPORT}'
+                sh '''
+                    . .venv/bin/activate
+                    pytest --junitxml=${TEST_REPORT}
+                '''
             }
         }
 
