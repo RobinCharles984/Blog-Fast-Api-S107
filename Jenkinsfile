@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Build Application') {
+        stage('Compile Application') {
             steps {
                 echo 'Checking integrity...'
                 sh 'python3 -m py_compile main.py'
@@ -54,7 +54,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'pytest --junitxml=${TEST_REPORT}'
+                sh './venv/bin/pytest --junitxml=${TEST_REPORT}'
             }
         }
 

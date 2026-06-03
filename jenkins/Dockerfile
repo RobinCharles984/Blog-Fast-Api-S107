@@ -7,7 +7,9 @@ RUN apt-get update && \
     git \
     curl \
     python3 \
-    python3-pip && \
+    python3-pip \
+    python3-venv \
+    docker.io && \
     rm -rf /var/lib/apt/lists/*
 
 USER jenkins
