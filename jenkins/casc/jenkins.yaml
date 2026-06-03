@@ -11,6 +11,12 @@ credentials:
               username: "${SMTP_USERNAME}"
               password: "${SMTP_PASSWORD}"
               description: "SMTP account used by Jenkins email notifications"
+          - usernamePassword:
+              scope: GLOBAL
+              id: "dockerhub-credentials"
+              username: "${DOCKERHUB_USERNAME}"
+              password: "${DOCKERHUB_TOKEN}"
+              description: "Docker Hub account used to publish pipeline images"
 
 unclassified:
   location:

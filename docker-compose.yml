@@ -164,6 +164,8 @@ services:
       SMTP_FROM: ${SMTP_FROM:-jenkins@blog.local}
       SMTP_USE_SSL: ${SMTP_USE_SSL:-false}
       SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+      DOCKERHUB_USERNAME: ${DOCKERHUB_USERNAME:-}
+      DOCKERHUB_TOKEN: ${DOCKERHUB_TOKEN:-}
     ports:
       - "8080:8080"
       - "50000:50000"
