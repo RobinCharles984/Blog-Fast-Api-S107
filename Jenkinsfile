@@ -22,7 +22,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing local dependencies...'
-                sh 'python3 -m pip install --break-system-packages -r requirements.txt'
+                sh 'python3 -m venv venv'
+                sh '. venv/bin/activate && pip install -r requirements.txt'
             }
         }
 
