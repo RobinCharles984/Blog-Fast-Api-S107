@@ -2,7 +2,9 @@ pipeline-stage-view
 workflow-aggregator
 git
 docker-workflow
+configuration-as-code
 email-ext
 junit
 credentials
+credentials-binding
 ws-cleanup

@@ -1,0 +1,42 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically with Configuration as Code."
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope: GLOBAL
+              id: "smtp-credentials"
+              username: "${SMTP_USERNAME}"
+              password: "${SMTP_PASSWORD}"
+              description: "SMTP account used by Jenkins email notifications"
+
+unclassified:
+  location:
+    url: "${JENKINS_URL}"
+    adminAddress: "${JENKINS_ADMIN_EMAIL}"
+
+  mailer:
+    smtpHost: "${SMTP_HOST}"
+    smtpPort: "${SMTP_PORT}"
+    useSsl: ${SMTP_USE_SSL}
+    useTls: ${SMTP_USE_TLS}
+    charset: "UTF-8"
+    replyToAddress: "${SMTP_FROM}"
+
+  extendedEmailPublisher:
+    charset: "UTF-8"
+    defaultContentType: "text/html"
+    defaultRecipients: "${EMAIL_RECIPIENTS}"
+    defaultReplyTo: "${SMTP_FROM}"
+    defaultSubject: "$PROJECT_NAME - $BUILD_STATUS"
+    defaultBody: |
+      <p>Build: <a href="$BUILD_URL">$BUILD_URL</a></p>
+    mailAccount:
+      address: "${SMTP_FROM}"
+      smtpHost: "${SMTP_HOST}"
+      smtpPort: "${SMTP_PORT}"
+      credentialsId: "smtp-credentials"
+      useSsl: ${SMTP_USE_SSL}
+      useTls: ${SMTP_USE_TLS}
