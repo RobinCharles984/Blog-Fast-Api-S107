@@ -57,12 +57,16 @@ pipeline {
         }
         stage('Package Application') {
             steps {
-                echo 'Creating application package...'
                 sh '''
-                    tar --exclude=.git \
-                        --exclude=.venv \
-                        --exclude=jenkins-ci.db \
-                        -czf blog-fastapi-${BUILD_NUMBER}.tar.gz .
+                    mkdir -p package
+
+                    cp -r app package/ 2>/dev/null || true
+                    cp main.py package/ 2>/dev/null || true
+                    cp requirements.txt package/
+                    cp Dockerfile package/
+                    cp docker-compose.yml package/ 2>/dev/null || true
+
+                    tar -czf blog-fastapi-${BUILD_NUMBER}.tar.gz package
                 '''
             }
         }
