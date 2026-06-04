@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         APP_NAME = 'blog-fastapi-app'
-        DOCKERHUB_REPO = 'felipezeferino/blog-fastapi-app'
+        DOCKERHUB_REPO = 'pizzonin/blog-fastapi-app'
         TEST_REPORT = 'test-results.xml'
         DATABASE_URL = 'sqlite:///./jenkins-ci.db'
         SECRET_KEY = 'jenkins-ci-secret'
