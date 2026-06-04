@@ -12,6 +12,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = 'jenkins-ci-secret-key'
         BUCKET_NAME = 'blog-fastapi-ci'
         REGION_NAME = 'us-east-1'
+        
     }
 
     stages {
@@ -51,6 +52,17 @@ pipeline {
                     docker build -t ${APP_NAME}:${BUILD_NUMBER} .
                     docker tag ${APP_NAME}:${BUILD_NUMBER} ${DOCKERHUB_REPO}:${BUILD_NUMBER}
                     docker tag ${APP_NAME}:${BUILD_NUMBER} ${DOCKERHUB_REPO}:latest
+                '''
+            }
+        }
+        stage('Package Application') {
+            steps {
+                echo 'Creating application package...'
+                sh '''
+                    tar --exclude=.git \
+                        --exclude=.venv \
+                        --exclude=jenkins-ci.db \
+                        -czf blog-fastapi-${BUILD_NUMBER}.tar.gz .
                 '''
             }
         }
