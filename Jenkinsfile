@@ -29,17 +29,12 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing local dependencies...'
-                sh '''
-                    python3 -m venv .venv
-                    . .venv/bin/activate
-                    python -m pip install --upgrade pip
-                    python -m pip install -r requirements.txt
-                    python -m pip install pytest-cov
-                '''
+                sh 'python3 -m venv venv'
+                sh '. venv/bin/activate && pip install -r requirements.txt'
             }
         }
 
-        stage('Build Application') {
+        stage('Compile Application') {
             steps {
                 echo 'Checking integrity...'
                 sh '''

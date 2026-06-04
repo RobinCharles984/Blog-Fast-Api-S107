@@ -1,8 +1,17 @@
 import bcrypt
+import os
 import pytest
 from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import Session
 from fastapi.testclient import TestClient
+
+# Ensure required environment variables exist for pydantic Settings during import
+os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+os.environ.setdefault("SECRET_KEY", "testsecret")
+os.environ.setdefault("AWS_ACCESS_KEY_ID", "test")
+os.environ.setdefault("AWS_SECRET_ACCESS_KEY", "test")
+os.environ.setdefault("BUCKET_NAME", "test-bucket")
+os.environ.setdefault("REGION_NAME", "us-east-1")
 
 from app.models.users import Base, Users
 from app.models.posts import Posts
