@@ -126,6 +126,22 @@ Exemplo: <code>POST /api/v1/signup</code>
 
 Testes automatizados com **pytest** localizados na pasta `tests/`.
 
+## CI/CD e notificações por email
+
+O Jenkins é configurado via **Configuration as Code** em
+`jenkins/casc/jenkins.yaml`. O arquivo usa variáveis de ambiente definidas no
+`docker-compose.yml` e documentadas no `.env.example`.
+
+Para habilitar o envio de email, configure no `.env`:
+
+* `EMAIL_RECIPIENTS`: destinatários das notificações.
+* `SMTP_HOST` e `SMTP_PORT`: servidor e porta SMTP.
+* `SMTP_USERNAME` e `SMTP_PASSWORD`: credenciais SMTP.
+* `SMTP_FROM`: remetente usado pelo Jenkins.
+* `SMTP_USE_SSL` e `SMTP_USE_TLS`: opções de segurança do provedor SMTP.
+
+O pipeline envia email apenas em caso de sucesso ou falha.
+
 ## Execução
 
 1. Clone o repositório
