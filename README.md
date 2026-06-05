@@ -303,18 +303,20 @@ Em conformidade com os requisitos do projeto, declaramos abaixo o uso transparen
 
 ## Modelos Utilizados
 * Gemini (Google)
+* GPT-5.5
 * [INSERIR OUTROS MODELOS USADOS PELO GRUPO: ex: ChatGPT/GPT-4, Claude, GitHub Copilot]
 
 ## Finalidades do Uso
 A IA foi utilizada para acelerar processos de infraestrutura e validação, especificamente nas seguintes áreas:
 * **Geração e otimização do Dockerfile** da aplicação FastAPI.
-* **Estruturação inicial e sintaxe declarativa do Jenkinsfile** para os primeiros stages.
+* **Estruturação inicial e sintaxe declarativa do Jenkinsfile** para os primeiros stages e correções em stages posteriores.
+* **Tutorial de push do contâiner Jenkins no dockerhub** para possuir uma imagem jenkins com os plugins instalados
 * **Debugging de erros** de conexão do Docker Daemon em ambiente Windows/WSL.
 * **Boa parte deste README.md**, tendo algumas alterações e gerado dentro do ambiente da LLM usada.
 * [INSERIR OUTRAS FINALIDADES: ex: geração de fixtures para pytest, formatação do docker-compose.yml]
 
 ## Dinâmica de Uso
-A IA foi utilizada de forma individual pelos integrantes em suas respectivas frentes de atuação (ex: Integrante 1 para Backend/Build, Integrante 3 para Compose), atuando como um "pair programmer" assíncrono para revisar configurações de infraestrutura antes dos commits. Toda sugestão de código foi revisada e testada localmente antes de ser integrada à pipeline principal.
+A IA foi utilizada de forma individual pelos integrantes em suas respectivas frentes de atuação (ex: Integrante 1 para Backend/Build, Integrante 3 para Compose), atuando como um "pair programmer" assíncrono para revisar configurações de infraestrutura antes dos commits. Toda sugestão de código foi revisada e testada localmente antes de ser integrada à pipeline principal, já que alterações sem revisão poderiam levar à quebra do pipe de CI/CD, por exemplo.
 
 ## Exemplos Reais de Prompts
 
@@ -330,10 +332,10 @@ Conforme exigido, abaixo estão pelo menos 3 exemplos de prompts utilizados pela
 * **Resultado:** A IA identificou que o modelo copiado era para testes frontend (Cypress) e alertou que nosso projeto precisava de Python nativo no container do Jenkins para rodar o `pip install`.
 * **Ação:** **Aceito.** Descartamos o arquivo antigo e reescrevemos o `Dockerfile.jenkins` removendo as bibliotecas gráficas e instalando pacotes de ambiente virtual Python (`python3-venv`).
 
-### Exemplo 3: [INSERIR FRENTE DE OUTRO INTEGRANTE - EX: TESTES OU DOCKER COMPOSE]
-* **Prompt:** *"[Inserir a pergunta feita para a IA]"* 
-* **Resultado:** *"[Inserir o que a IA sugeriu]"* 
-* **Ação:** *"[Foi aceito, descartado ou modificado? Por quê?]"* 
+### Exemplo 3: Configuração e Inicialização do Container Jenkins (Integrante 4)
+* **Prompt:** *"Estou tentando subir o Jenkins em um container Docker, mas a pipeline não consegue executar comandos Docker. Como devo iniciar o container?"* 
+* **Resultado:** A IA identificou que o Jenkins estava sendo executado sem acesso ao Docker do host. Foi sugerido iniciar o container utilizando o mapeamento do socket Docker (/var/run/docker.sock) e persistir os dados do Jenkins em um volume dedicado.  
+* **Ação:** **Aceito.** O comando de inicialização do Jenkins foi atualizado para incluir o volume de persistência e o mapeamento do socket Docker. Após a alteração, o Jenkins passou a conseguir executar comandos Docker dentro das pipelines, permitindo a construção e execução das imagens da aplicação durante o processo de CI/CD. 
 
 ## O que NÃO foi feito por IA (Desenvolvimento "À Mão")
 Para garantir o domínio técnico exigido, as seguintes partes foram desenvolvidas e configuradas manualmente pela equipe:
@@ -341,3 +343,4 @@ Para garantir o domínio técnico exigido, as seguintes partes foram desenvolvid
 * A configuração das credenciais e variáveis de ambiente reais no Jenkins (via interface e JCasC).
 * A divisão de arquitetura e a decisão de como os volumes seriam mapeados no `docker-compose.yml`.
 * A execução e o troubleshooting final da pipeline rodando os 4 containers simultaneamente na máquina local.
+* Avaliação da execução correta do pipe de CI/CD.
