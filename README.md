@@ -302,8 +302,8 @@ Os segredos não ficam armazenados na imagem Docker, sendo fornecidos através d
 Em conformidade com os requisitos do projeto, declaramos abaixo o uso transparente de ferramentas de Inteligência Artificial durante o ciclo de desenvolvimento da nossa infraestrutura DevOps.
 
 ## Modelos Utilizados
-* Gemini (Google) [cite: 91]
-* [INSERIR OUTROS MODELOS USADOS PELO GRUPO: ex: ChatGPT/GPT-4, Claude, GitHub Copilot] [cite: 91]
+* Gemini (Google)
+* [INSERIR OUTROS MODELOS USADOS PELO GRUPO: ex: ChatGPT/GPT-4, Claude, GitHub Copilot]
 
 ## Finalidades do Uso
 A IA foi utilizada para acelerar processos de infraestrutura e validação, especificamente nas seguintes áreas:
@@ -336,7 +336,7 @@ Conforme exigido, abaixo estão pelo menos 3 exemplos de prompts utilizados pela
 * **Ação:** *"[Foi aceito, descartado ou modificado? Por quê?]"* 
 
 ## O que NÃO foi feito por IA (Desenvolvimento "À Mão")
-Para garantir o domínio técnico exigido [cite: 88], as seguintes partes foram desenvolvidas e configuradas manualmente pela equipe[cite: 95]:
+Para garantir o domínio técnico exigido, as seguintes partes foram desenvolvidas e configuradas manualmente pela equipe:
 * A lógica de negócio e os endpoints principais da aplicação FastAPI.
 * A configuração das credenciais e variáveis de ambiente reais no Jenkins (via interface e JCasC).
 * A divisão de arquitetura e a decisão de como os volumes seriam mapeados no `docker-compose.yml`.
