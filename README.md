@@ -295,3 +295,49 @@ Os segredos não ficam armazenados na imagem Docker, sendo fornecidos através d
 * Imagem Docker da aplicação publicada automaticamente.
 
 ---
+
+
+# Uso de Inteligência Artificial
+
+Em conformidade com os requisitos do projeto, declaramos abaixo o uso transparente de ferramentas de Inteligência Artificial durante o ciclo de desenvolvimento da nossa infraestrutura DevOps.
+
+## Modelos Utilizados
+* Gemini (Google) [cite: 91]
+* [INSERIR OUTROS MODELOS USADOS PELO GRUPO: ex: ChatGPT/GPT-4, Claude, GitHub Copilot] [cite: 91]
+
+## Finalidades do Uso
+A IA foi utilizada para acelerar processos de infraestrutura e validação, especificamente nas seguintes áreas:
+* **Geração e otimização do Dockerfile** da aplicação FastAPI.
+* **Estruturação inicial e sintaxe declarativa do Jenkinsfile** para os primeiros stages.
+* **Debugging de erros** de conexão do Docker Daemon em ambiente Windows/WSL.
+* **Boa parte deste README.md**, tendo algumas alterações e gerado dentro do ambiente da LLM usada.
+* [INSERIR OUTRAS FINALIDADES: ex: geração de fixtures para pytest, formatação do docker-compose.yml]
+
+## Dinâmica de Uso
+A IA foi utilizada de forma individual pelos integrantes em suas respectivas frentes de atuação (ex: Integrante 1 para Backend/Build, Integrante 3 para Compose), atuando como um "pair programmer" assíncrono para revisar configurações de infraestrutura antes dos commits. Toda sugestão de código foi revisada e testada localmente antes de ser integrada à pipeline principal.
+
+## Exemplos Reais de Prompts
+
+Conforme exigido, abaixo estão pelo menos 3 exemplos de prompts utilizados pela equipe e como lidamos com as respostas:
+
+### Exemplo 1: Otimização do Dockerfile (Integrante 1)
+* **Prompt:** *"A aplicação já está pronta em FastAPI. O db.py usa BaseSettings e o auth.py usa dependências injetadas. Como posso fazer o Dockerfile ideal para essa aplicação para integrar com o Jenkins depois?"*
+* **Resultado:** A IA sugeriu um `Dockerfile` utilizando a imagem `python:3.10-slim` com separação em camadas (copiando o `requirements.txt` primeiro para aproveitar o cache do Docker).
+* **Ação:** **Aceito e ajustado.** A estrutura base foi aceita, mas validamos a necessidade de manter a variável de ambiente `ENV PYTHONPATH=.` para garantir o funcionamento correto dos imports dos nossos módulos internos.
+
+### Exemplo 2: Correção do Jenkinsfile
+* **Prompt:** *"Eu estou com dois dockerfiles, o da aplicação e um Dockerfile.jenkins que copiei do repositório base que instala nodejs, xvfb e libgtk. Está correto para o meu projeto FastAPI?"*
+* **Resultado:** A IA identificou que o modelo copiado era para testes frontend (Cypress) e alertou que nosso projeto precisava de Python nativo no container do Jenkins para rodar o `pip install`.
+* **Ação:** **Aceito.** Descartamos o arquivo antigo e reescrevemos o `Dockerfile.jenkins` removendo as bibliotecas gráficas e instalando pacotes de ambiente virtual Python (`python3-venv`).
+
+### Exemplo 3: [INSERIR FRENTE DE OUTRO INTEGRANTE - EX: TESTES OU DOCKER COMPOSE]
+* **Prompt:** *"[Inserir a pergunta feita para a IA]"* 
+* **Resultado:** *"[Inserir o que a IA sugeriu]"* 
+* **Ação:** *"[Foi aceito, descartado ou modificado? Por quê?]"* 
+
+## O que NÃO foi feito por IA (Desenvolvimento "À Mão")
+Para garantir o domínio técnico exigido [cite: 88], as seguintes partes foram desenvolvidas e configuradas manualmente pela equipe[cite: 95]:
+* A lógica de negócio e os endpoints principais da aplicação FastAPI.
+* A configuração das credenciais e variáveis de ambiente reais no Jenkins (via interface e JCasC).
+* A divisão de arquitetura e a decisão de como os volumes seriam mapeados no `docker-compose.yml`.
+* A execução e o troubleshooting final da pipeline rodando os 4 containers simultaneamente na máquina local.
