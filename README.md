@@ -1,159 +1,297 @@
-# Blog API - FastAPI
+# Blog FastAPI - CI/CD com Jenkins e Docker
 
-## Descrição
+## Sobre o Projeto
 
-Projeto de uma API REST para gerenciamento de um blog, utilizando as seguintes tecnologias:
+Este projeto foi desenvolvido com foco na implementação de uma infraestrutura de Integração Contínua e Entrega Contínua (CI/CD) utilizando Jenkins, Docker e Docker Hub.
 
-* **FastAPI**: Framework principal para construção da API.
-* **SQLAlchemy**: ORM para manipulação do banco de dados.
-* **Alembic**: Controle de migrações.
-* **Pydantic**: Validação e serialização de dados.
-* **JWT**: Autenticação baseada em tokens.
-* **boto3**: Integração com AWS S3 para armazenamento de imagens.
-* **pytest**: Framework de testes.
+A aplicação consiste em uma API REST desenvolvida com FastAPI e executada em um ambiente containerizado composto por múltiplos serviços.
 
-A documentação interativa da API está disponível automaticamente pelo Swagger em `/docs`.
-
-## Funcionalidades
-
-* Cadastro e login de usuários, com autenticação via JWT.
-* CRUD de posts com upload de imagens para AWS S3.
-* Controle de permissão para exclusão e atualização de posts.
-* Manipulação de arquivos no S3 ao editar ou excluir posts.
-* Testes automatizados com pytest.
-
-## Estrutura de Pastas
-
-```
-blog/
-├── alembic/
-├── app/
-│   ├── models/
-│   │   ├── users.py
-│   │   └── posts.py
-│   ├── repositories/
-│   │   ├── jwt_repo.py
-│   │   ├── posts_repo.py
-│   │   └── user_repo.py
-│   ├── routes/
-│   │   ├── posts.py
-│   │   └── users.py
-│   ├── schemas/
-│   │   ├── authentication_schema.py
-│   │   ├── base_schema.py
-│   │   └── posts_schema.py
-│   ├── utils/
-│   │   └── s3_utils.py
-├── dependencies/
-│   ├── auth.py
-│   └── db.py
-├── exceptions/
-│   └── http_exceptions.py
-├── tests/
-│   ├── conftest.py
-│   ├── test_posts.py
-│   └── test_users.py
-├── .env.example
-├── .gitignore
-├── alembic.ini
-├── config.py
-├── main.py
-├── pytest.ini
-└── requirements.txt
-```
-
-## Rotas Principais
-
-<blockquote>
-<strong>⚠️ Importante:</strong> Todas as rotas da API estão prefixadas com <code>/api/v1</code>.<br>
-Exemplo: <code>POST /api/v1/signup</code>
-</blockquote>
-
-
-### Autenticação
-
-* **POST** `/signup`: Cadastra um novo usuário.
-* **POST** `/login`: Realiza login e retorna o token JWT.
-* **PATCH** `/{user_id}/promote`: Rota acessível a administração, para promover outro usuário para admin
-
-### Posts
-
-* **POST** `/posts`: Cria um novo post. Permite o upload de imagem para o S3.
-* **GET** `/posts`: Lista todos os posts com paginação.
-* **GET** `/posts?post_id=1`: Retorna detalhes de um post específico.
-* **PUT** `/posts/{post_id}`: Atualiza um post. Se houver nova imagem, a antiga será removida do S3.
-* **DELETE** `/posts/{post_id}`: Exclui um post e a imagem correspondente no S3, se existir.
-
-## Modelos
-
-### Users
-
-| Campo         | Tipo        | Restrições                               |
-| ------------- | ----------- | ---------------------------------------- |
-| id            | Integer     | PK                                       |
-| username      | String(20)  | Único, obrigatório                       |
-| email         | String(50)  | Único, obrigatório                       |
-| password      | String(128) | Obrigatório                              |
-| phone\_number | String(20)  | Único, obrigatório                       |
-| first\_name   | String(20)  | Obrigatório                              |
-| last\_name    | String(20)  | Obrigatório                              |
-| gender        | Enum        | Obrigatório (GenderEnum)                 |
-| role          | String      | Default: "user"                          |
-| create\_date  | DateTime    | Default: now                             |
-| update\_date  | DateTime    | Default: now; atualizado automaticamente |
-
-
-### Posts
-
-| Campo             | Tipo     | Restrições                               |
-| ----------------- | -------- | ---------------------------------------- |
-| id                | Integer  | PK                                       |
-| title             | String   | Obrigatório                              |
-| author\_id        | Integer  | FK para Users(id)                        |
-| cover\_image\_url | String   | Opcional                                 |
-| content           | Text     | Obrigatório                              |
-| create\_date      | DateTime | Default: now                             |
-| update\_date      | DateTime | Default: now; atualizado automaticamente |
-
-
-## Dependências importantes
-
-* `.env`: Arquivo para variáveis de ambiente (não enviado ao GitHub).
-* `config.py`: Configurações gerais do projeto.
-* `requirements.txt`: Dependências do Python.
-
-## Testes
-
-Testes automatizados com **pytest** localizados na pasta `tests/`.
-
-## CI/CD e notificações por email
-
-O Jenkins é configurado via **Configuration as Code** em
-`jenkins/casc/jenkins.yaml`. O arquivo usa variáveis de ambiente definidas no
-`docker-compose.yml` e documentadas no `.env.example`.
-
-Para habilitar o envio de email, configure no `.env`:
-
-* `EMAIL_RECIPIENTS`: destinatários das notificações.
-* `SMTP_HOST` e `SMTP_PORT`: servidor e porta SMTP.
-* `SMTP_USERNAME` e `SMTP_PASSWORD`: credenciais SMTP.
-* `SMTP_FROM`: remetente usado pelo Jenkins.
-* `SMTP_USE_SSL` e `SMTP_USE_TLS`: opções de segurança do provedor SMTP.
-
-O pipeline envia email apenas em caso de sucesso ou falha.
-
-## Execução
-
-1. Clone o repositório
-2. Com base no `.env.example`, crie seu `.env`
-3. Instale as dependências: `pip install -r requirements.txt`
-4. Execute as migrações: `alembic upgrade head`
-5. Rode o servidor: `uvicorn main:app --reload`
-
-Acesse a documentação em: `http://localhost:8000/docs`
+O principal objetivo do projeto foi automatizar o ciclo de build, testes, empacotamento, publicação e notificação através de uma pipeline Jenkins totalmente versionada em código.
 
 ---
 
-**Autor:** joaopedromsantos
+# Tecnologias Utilizadas
 
-**Licença:** MIT
+* Python
+* FastAPI
+* Pytest
+* PostgreSQL
+* MinIO
+* Nginx
+* PgAdmin
+* Docker
+* Docker Compose
+* Jenkins
+* Docker Hub
+
+---
+
+# Arquitetura
+
+```text
+GitHub
+   │
+   ▼
+Jenkins Pipeline
+   │
+   ├── Checkout
+   ├── Install Dependencies
+   ├── Compile Application
+   ├── Build Docker Image
+   ├── Package Application
+   ├── Run Tests
+   ├── Docker Push
+   ├── Archive Artifacts
+   └── Email Notification
+   │
+   ▼
+Docker Hub
+```
+
+---
+
+# Containers Utilizados
+
+O ambiente completo é composto pelos seguintes containers:
+
+| Container   | Função                      |
+| ----------- | --------------------------- |
+| FastAPI App | Aplicação principal         |
+| PostgreSQL  | Banco de dados              |
+| MinIO       | Armazenamento de objetos    |
+| Nginx       | Proxy reverso               |
+| PgAdmin     | Administração do PostgreSQL |
+| Jenkins     | Pipeline CI/CD              |
+
+O projeto atende aos requisitos de:
+
+* Mais de 4 containers;
+* Comunicação entre containers;
+* Uso de Dockerfile próprio;
+* Uso de imagens oficiais do Docker Hub;
+* Persistência via volumes Docker.
+
+---
+
+# Pipeline CI/CD
+
+A pipeline foi implementada exclusivamente através de um Jenkinsfile armazenado no repositório.
+
+## Etapas Executadas
+
+### Checkout
+
+Obtém automaticamente o código-fonte do GitHub.
+
+### Install Dependencies
+
+Cria um ambiente virtual Python e instala as dependências necessárias.
+
+### Compile Application
+
+Realiza validação sintática da aplicação.
+
+```bash
+python -m py_compile main.py
+```
+
+### Build Docker Image
+
+Constrói a imagem Docker da aplicação.
+
+```bash
+docker build
+```
+
+### Package Application
+
+Gera um pacote compactado da aplicação.
+
+```bash
+tar -czf blog-fastapi-${BUILD_NUMBER}.tar.gz
+```
+
+### Run Tests
+
+Executa os testes automatizados.
+
+```bash
+pytest --junitxml=test-results.xml
+```
+
+### Docker Push
+
+Publica automaticamente a imagem da aplicação no Docker Hub.
+
+### Archive Artifacts
+
+Armazena os artefatos da build.
+
+### Email Notification
+
+Envia notificação automática de sucesso ou falha.
+
+---
+
+# Artefatos Gerados
+
+A pipeline armazena automaticamente:
+
+## Relatório de Testes
+
+```text
+test-results.xml
+```
+
+## Pacote da Aplicação
+
+```text
+blog-fastapi-<build>.tar.gz
+```
+
+Ambos ficam disponíveis para download diretamente na interface do Jenkins.
+
+---
+
+# Docker Hub
+
+## Jenkins Customizado
+
+Imagem Docker contendo:
+
+* Jenkins pré-configurado
+* Docker CLI instalada
+* Plugins necessários para CI/CD
+* Jenkins Configuration as Code (JCasC)
+
+Docker Hub:
+
+```text
+https://hub.docker.com/r/pizzonin/blog-jenkins
+```
+
+---
+
+## Aplicação FastAPI
+
+Imagem gerada automaticamente pela pipeline.
+
+Docker Hub:
+
+```text
+https://hub.docker.com/r/pizzonin/blog-fastapi-app
+```
+
+---
+
+# Executando o Jenkins Diretamente do Docker Hub
+
+A imagem do Jenkins pode ser executada independentemente do restante da infraestrutura.
+
+## Baixar a imagem
+
+```bash
+docker pull pizzonin/blog-jenkins:latest
+```
+
+## Executar o container
+
+```bash
+docker run -d --name jenkins-test --user root -p 8080:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock --env-file .env pizzonin/blog-jenkins:latest
+```
+
+## Acessar Jenkins
+
+```text
+http://localhost:8080
+```
+
+---
+
+## Obter a senha inicial
+
+```bash
+docker exec jenkins-test cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
+---
+
+# Executando Toda a Infraestrutura
+
+Subir todos os serviços:
+
+```bash
+docker compose up -d
+```
+
+Verificar containers:
+
+```bash
+docker ps
+```
+
+Parar os containers:
+
+```bash
+docker compose down
+```
+
+Remover containers e volumes:
+
+```bash
+docker compose down -v
+```
+
+---
+
+# Estrutura de CI/CD
+
+O Jenkins utiliza:
+
+* Jenkinsfile versionado;
+* Docker Socket para execução de builds Docker;
+* Docker Hub para distribuição das imagens;
+* Credentials gerenciadas via Jenkins Configuration as Code;
+* Notificações por e-mail parametrizadas por variáveis de ambiente.
+
+Nenhuma etapa da pipeline foi criada manualmente pela interface gráfica do Jenkins.
+
+---
+
+# Jenkins Configuration as Code (JCasC)
+
+O Jenkins é configurado automaticamente através do arquivo:
+
+```text
+jenkins/casc/jenkins.yaml
+```
+
+A configuração inclui:
+
+* Credenciais Docker Hub;
+* Configuração SMTP;
+* Configuração de e-mail;
+* URL da instância Jenkins.
+
+Os segredos não ficam armazenados na imagem Docker, sendo fornecidos através de variáveis de ambiente.
+
+---
+
+# Requisitos Atendidos
+
+* Pipeline implementada via Jenkinsfile;
+* Execução automatizada de testes;
+* Build automatizada;
+* Empacotamento da aplicação;
+* Armazenamento de artefatos;
+* Relatório de testes armazenado;
+* Publicação no Docker Hub;
+* Notificação automática por e-mail;
+* Jenkins configurado via código;
+* Infraestrutura containerizada;
+* Comunicação entre containers;
+* Persistência via volumes;
+* Imagem Docker customizada do Jenkins;
+* Imagem Docker da aplicação publicada automaticamente.
+
+---
