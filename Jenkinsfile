@@ -122,7 +122,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts(
-                    artifacts: "${TEST_REPORT}",
+                    artifacts: "${TEST_REPORT}, blog-fastapi-${BUILD_NUMBER}.tar.gz",
                     fingerprint: true
                 )
             }
