@@ -304,6 +304,7 @@ Em conformidade com os requisitos do projeto, declaramos abaixo o uso transparen
 ## Modelos Utilizados
 * Gemini (Google)
 * GPT-5.5
+* Claude
 * [INSERIR OUTROS MODELOS USADOS PELO GRUPO: ex: ChatGPT/GPT-4, Claude, GitHub Copilot]
 
 ## Finalidades do Uso
@@ -313,6 +314,7 @@ A IA foi utilizada para acelerar processos de infraestrutura e validação, espe
 * **Tutorial de push do contâiner Jenkins no dockerhub** para possuir uma imagem jenkins com os plugins instalados
 * **Debugging de erros** de conexão do Docker Daemon em ambiente Windows/WSL.
 * **Boa parte deste README.md**, tendo algumas alterações e gerado dentro do ambiente da LLM usada.
+* **Ideias**, através da IA, foi estudado ideias de implementações como containers que ajudariam a aplicação
 * [INSERIR OUTRAS FINALIDADES: ex: geração de fixtures para pytest, formatação do docker-compose.yml]
 
 ## Dinâmica de Uso
