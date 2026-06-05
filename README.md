@@ -346,3 +346,23 @@ Para garantir o domínio técnico exigido, as seguintes partes foram desenvolvid
 * A divisão de arquitetura e a decisão de como os volumes seriam mapeados no `docker-compose.yml`.
 * A execução e o troubleshooting final da pipeline rodando os 4 containers simultaneamente na máquina local.
 * Avaliação da execução correta do pipe de CI/CD.
+
+-- Felipe Zeferino - Seção Uso de IA --
+
+Usado o Codex, baseado em GPT-5, no harness Codex Desktop/App, com acesso ao workspace local do projeto `Blog-Fast-Api-S107`.
+
+A IA auxiliou na configuração de CI/CD com Jenkins, Docker Compose e Jenkins Configuration as Code. O trabalho principal foi implementar notificações por e-mail via Brevo, configurar credenciais do Docker Hub, ajustar o `Jenkinsfile` e validar a pipeline local.
+
+Foram usados terminal local, navegador integrado, Docker, Jenkins em `localhost:8080`, Git e automação de browser. As credenciais SMTP e Docker Hub ficaram no `.env`, sem commit no repositório.
+
+Com apoio da IA, configurei:
+- SMTP Brevo via JCasC;
+- notificações de sucesso e falha no Jenkins;
+- credencial `dockerhub-credentials` via YAML;
+- ambiente de teste no pipeline;
+- build e push da imagem Docker;
+- validação da entrega de e-mail com sender verificado.
+
+Durante o processo, a IA também ajudou a corrigir erros de pipeline, como dependências Python, variáveis de ambiente ausentes, plugin `pytest-cov`, formato de URL S3 nos testes e credencial Docker Hub ausente.
+
+Resultado final: a build do Jenkins passou com sucesso, os testes executaram, a imagem foi publicada no Docker Hub e o e-mail de notificação foi recebido.
