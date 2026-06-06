@@ -8,3 +8,4 @@ junit
 credentials
 credentials-binding
 ws-cleanup
+code-coverage-api

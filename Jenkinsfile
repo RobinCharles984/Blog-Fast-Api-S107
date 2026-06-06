@@ -6,6 +6,7 @@ pipeline {
         APP_NAME = 'blog-fastapi-app'
         DOCKERHUB_REPO = 'pizzonin/blog-fastapi-app'
         TEST_REPORT = 'test-results.xml'
+        COVERAGE_REPORT = 'coverage.xml'
         DATABASE_URL = 'sqlite:///./jenkins-ci.db'
         SECRET_KEY = 'jenkins-ci-secret'
         AWS_ACCESS_KEY_ID = 'jenkins-ci-access-key'
@@ -86,7 +87,7 @@ pipeline {
             steps {
                 sh '''
                     . .venv/bin/activate
-                    pytest --junitxml=${TEST_REPORT}
+                    pytest --junitxml=${TEST_REPORT} --cov-report=xml:${COVERAGE_REPORT} --cov-report=term-missing
                 '''
             }
         }
@@ -122,7 +123,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts(
-                    artifacts: "${TEST_REPORT}, blog-fastapi-${BUILD_NUMBER}.tar.gz",
+                    artifacts: "${TEST_REPORT}, ${COVERAGE_REPORT}, blog-fastapi-${BUILD_NUMBER}.tar.gz",
                     fingerprint: true
                 )
             }
@@ -182,6 +183,7 @@ pipeline {
         }
 
         always {
+            publishCoverage adapters: [coberturaAdapter('coverage.xml')]
             cleanWs()
         }
     }
