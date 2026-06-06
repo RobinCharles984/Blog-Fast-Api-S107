@@ -183,7 +183,10 @@ pipeline {
         }
 
         always {
-            publishCoverage adapters: [coberturaAdapter('coverage.xml')]
+            recordCoverage(
+                tools: [[parser: 'COBERTURA', pattern: 'coverage.xml']],
+                name: 'Code Coverage Report'
+            )
             cleanWs()
         }
     }
